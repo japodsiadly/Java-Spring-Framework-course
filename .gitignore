@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+todo-db.trace.db
+todo-db.mv.db
