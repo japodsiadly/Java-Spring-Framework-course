@@ -17,14 +17,14 @@ public class TaskConfigurationProperties {
     }
 
     public static class Template {
-        private boolean allowMultipleTasksFromTemplate;
+        private boolean allowMultipleTasks;
 
-        public boolean isAllowMultipleTasksFromTemplate() {
-            return allowMultipleTasksFromTemplate;
+        public boolean isAllowMultipleTasks() {
+            return allowMultipleTasks;
         }
 
-        public void setAllowMultipleTasksFromTemplate(final boolean allowMultipleTasksFromTemplate) {
-            this.allowMultipleTasksFromTemplate = allowMultipleTasksFromTemplate;
+        public void setAllowMultipleTasks(final boolean allowMultipleTasks) {
+            this.allowMultipleTasks = allowMultipleTasks;
         }
     }
 }
