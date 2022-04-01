@@ -5,15 +5,13 @@ import io.github.Vortex.model.TaskGroupRepository;
 import io.github.Vortex.model.TaskRepository;
 import io.github.Vortex.model.projection.GroupReadModel;
 import io.github.Vortex.model.projection.GroupWriteModel;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
 public class TaskGroupService {
-    private TaskGroupRepository repository;
-    private TaskRepository taskRepository;
+    private final TaskGroupRepository repository;
+    private final TaskRepository taskRepository;
 
     TaskGroupService(final TaskGroupRepository repository, final TaskRepository taskRepository) {
         this.repository = repository;

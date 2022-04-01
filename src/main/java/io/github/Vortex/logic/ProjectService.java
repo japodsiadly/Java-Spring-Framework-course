@@ -3,17 +3,15 @@ package io.github.Vortex.logic;
 import io.github.Vortex.TaskConfigurationProperties;
 import io.github.Vortex.model.*;
 import io.github.Vortex.model.projection.GroupReadModel;
-import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
 public class ProjectService {
-    private ProjectRepository repository;
-    private TaskGroupRepository taskGroupRepository;
-    private TaskConfigurationProperties config;
+    private final ProjectRepository repository;
+    private final TaskGroupRepository taskGroupRepository;
+    private final TaskConfigurationProperties config;
 
     ProjectService(final ProjectRepository repository, final TaskGroupRepository taskGroupRepository, final TaskConfigurationProperties config) {
         this.repository = repository;
