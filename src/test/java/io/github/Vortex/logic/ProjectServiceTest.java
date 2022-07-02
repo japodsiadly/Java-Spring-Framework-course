@@ -26,7 +26,7 @@ class ProjectServiceTest {
 
         TaskConfigurationProperties mockConfig = configurationReturning(false);
         //WHEN
-        var toTest = new ProjectService(null, mockGroupRepository, mockConfig);
+        var toTest = new ProjectService(null, mockGroupRepository, null, mockConfig);
 
         var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0));
 
@@ -45,7 +45,7 @@ class ProjectServiceTest {
 
         TaskConfigurationProperties mockConfig = configurationReturning(true);
         //WHEN
-        var toTest = new ProjectService(mockRepository, null, mockConfig);
+        var toTest = new ProjectService(mockRepository, null, null, mockConfig);
 
         var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0));
 
@@ -66,7 +66,7 @@ class ProjectServiceTest {
 
         TaskConfigurationProperties mockConfig = configurationReturning(true);
         //WHEN
-        var toTest = new ProjectService(mockRepository, mockGroupRepository, mockConfig);
+        var toTest = new ProjectService(mockRepository, mockGroupRepository, null, mockConfig);
 
         var exception = catchThrowable(() -> toTest.createGroup(LocalDateTime.now(), 0));
 
@@ -90,12 +90,13 @@ class ProjectServiceTest {
                 .thenReturn(Optional.of(project));
 
         InMemoryGroupRepository inMemoryGroupRepo = inMemoryGroupRepository();
+        var serviceWithInMemoryRepository = dummyGroupService(inMemoryGroupRepo);
         int countBeforeCall = inMemoryGroupRepo.count();
 
         TaskConfigurationProperties mockConfig = configurationReturning(true);
 
         //WHEN
-        var toTest = new ProjectService(mockRepository, inMemoryGroupRepo, mockConfig);
+        var toTest = new ProjectService(mockRepository, inMemoryGroupRepo, serviceWithInMemoryRepository, mockConfig);
 
         GroupReadModel result = toTest.createGroup(today, 1);
 
@@ -106,6 +107,10 @@ class ProjectServiceTest {
         assertThat(countBeforeCall + 1)
                 .isEqualTo(inMemoryGroupRepo.count());
 
+    }
+
+    private TaskGroupService dummyGroupService(final InMemoryGroupRepository inMemoryGroupRepo) {
+        return new TaskGroupService(inMemoryGroupRepo, null);
     }
 
     private Project projectWith(String description, Set<Integer> daysToDeadline) {
