@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Table(name = "tasks")
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotBlank(message = "Task's description must be not be empty")
     private String description;
@@ -24,8 +24,15 @@ public class Task {
     }
 
     public Task(String description,LocalDateTime deadline) {
+        this(description, deadline, null);
+    }
+
+    public Task(String description,LocalDateTime deadline, TaskGroup group) {
         this.description = description;
         this.deadline = deadline;
+        if (group != null) {
+            this.group = group;
+        }
     }
 
     public int getId() {

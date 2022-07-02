@@ -14,7 +14,7 @@ import java.util.Set;
 @Table(name = "projects")
 public class Project {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotBlank(message = "Project's description must not be empty")
     private String description;
@@ -23,7 +23,11 @@ public class Project {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
     private Set<ProjectStep> steps;
 
-    Project() {
+//    Project() {
+//    }
+
+    public Project() {
+
     }
 
     public int getId() {
