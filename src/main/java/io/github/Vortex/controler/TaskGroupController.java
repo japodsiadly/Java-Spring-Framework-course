@@ -19,34 +19,34 @@ import java.util.List;
 @RequestMapping("/groups")
 class TaskGroupController {
     public static final Logger logger = LoggerFactory.getLogger(TaskGroupController.class);
-    private final TaskGroupService service;
-    private final TaskRepository repository;
+    private final TaskGroupService taskGroupService;
+    private final TaskRepository taskRepository;
 
-    TaskGroupController(final TaskGroupService service, final TaskRepository repository) {
-        this.service = service;
-        this.repository = repository;
+    TaskGroupController(TaskGroupService taskGroupService, TaskRepository taskRepository) {
+        this.taskGroupService = taskGroupService;
+        this.taskRepository = taskRepository;
     }
 
     @PostMapping
     ResponseEntity<GroupReadModel> createGroup(@RequestBody @Valid GroupWriteModel toCreate) {
-        GroupReadModel result = service.createGroup(toCreate);
+        GroupReadModel result = taskGroupService.createGroup(toCreate);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
     @GetMapping
     ResponseEntity<List<GroupReadModel>> readAllGroups() {
-        return ResponseEntity.ok(service.readAll());
+        return ResponseEntity.ok(taskGroupService.readAll());
     }
 
-    @GetMapping("/{id}/tasks")
+    @GetMapping("/{id}")
     ResponseEntity<List<Task>> readAllTasksFromGroup(@PathVariable int id) {
-        return ResponseEntity.ok(repository.findAllByGroup_Id(id));
+        return ResponseEntity.ok(taskRepository.findAllByGroup_Id(id));
     }
 
     @Transactional
     @PatchMapping("/{id}")
     ResponseEntity<?> toggleGroup(@PathVariable int id) {
-        service.toggleGroup(id);
+        taskGroupService.toggleGroup(id);
         return ResponseEntity.noContent().build();
     }
 

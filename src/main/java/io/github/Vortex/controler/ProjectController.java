@@ -11,28 +11,21 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequestMapping("/projects")
 class ProjectController {
-    private final ProjectService service;
+    private final ProjectService projectService;
 
-    ProjectController(final ProjectService service) {
-        this.service = service;
+    ProjectController(ProjectService projectService) {
+        this.projectService = projectService;
     }
 
     @GetMapping
     String showProjects(Model model) {
         model.addAttribute("project", new ProjectWriteModel());
-        return "projects";
-    }
-
-    @PostMapping
-    String addProject(@ModelAttribute("project") ProjectWriteModel current, Model model) {
-        service.save(current);
-        model.addAttribute("project", new ProjectWriteModel());
-        model.addAttribute("message", "Dodano projekt!");
         return "projects";
     }
 
@@ -42,8 +35,16 @@ class ProjectController {
         return "projects";
     }
 
+    @PostMapping
+    String addProject(@ModelAttribute("project") @Valid ProjectWriteModel current, Model model) {
+        projectService.save(current);
+        model.addAttribute("project", new ProjectWriteModel());
+        model.addAttribute("message", "Dodano projekt!");
+        return "projects";
+    }
+
     @ModelAttribute("projects")
-    List<Project> getProjects(){
-        return service.readAll();
+    List<Project> getProjects() {
+        return projectService.readAll();
     }
 }
