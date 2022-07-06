@@ -1,10 +1,13 @@
 package io.github.Vortex.logic;
 
 import io.github.Vortex.TaskConfigurationProperties;
-import io.github.Vortex.model.*;
+import io.github.Vortex.model.Project;
+import io.github.Vortex.model.ProjectRepository;
+import io.github.Vortex.model.TaskGroupRepository;
 import io.github.Vortex.model.projection.GroupReadModel;
 import io.github.Vortex.model.projection.GroupTaskWriteModel;
 import io.github.Vortex.model.projection.GroupWriteModel;
+import io.github.Vortex.model.projection.ProjectWriteModel;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,8 +30,8 @@ public class ProjectService {
         return repository.findAll();
     }
 
-    public Project saveProject(final Project toSave) {
-        return repository.save(toSave);
+    public Project save(final ProjectWriteModel toSave) {
+        return repository.save(toSave.toProject());
     }
 
     public GroupReadModel createGroup(LocalDateTime deadline, int projectId) {
@@ -49,7 +52,7 @@ public class ProjectService {
                                             }
                                     ).collect(Collectors.toSet())
                     );
-                    return taskGroupService.createGroup(targetGroup);
+                    return taskGroupService.createGroup(targetGroup, project);
                 }).orElseThrow(() -> new IllegalArgumentException("Project with given id not found."));
     }
 }
