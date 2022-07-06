@@ -4,23 +4,24 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
-@Table(name = "project_steps")
+@Table(name = "PROJECT_STEPS")
 public class ProjectStep {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotBlank(message = "Project step's description must not be empty")
+    @NotBlank(message = "Project step's description must be not empty")
     private String description;
     private int daysToDeadline;
     @ManyToOne
     @JoinColumn(name = "project_id")
     private Project project;
 
+
     public int getId() {
         return id;
     }
 
-    void setId(final int id) {
+    void setId(int id) {
         this.id = id;
     }
 
@@ -28,7 +29,7 @@ public class ProjectStep {
         return description;
     }
 
-    void setDescription(final String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -36,7 +37,7 @@ public class ProjectStep {
         return daysToDeadline;
     }
 
-    void setDaysToDeadline(final int daysToDeadline) {
+    public void setDaysToDeadline(int daysToDeadline) {
         this.daysToDeadline = daysToDeadline;
     }
 
@@ -44,7 +45,7 @@ public class ProjectStep {
         return project;
     }
 
-    void setProject(final Project project) {
+    public void setProject(Project project) {
         this.project = project;
     }
 }

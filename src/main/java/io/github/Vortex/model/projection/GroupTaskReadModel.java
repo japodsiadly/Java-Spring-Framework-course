@@ -15,7 +15,7 @@ public class GroupTaskReadModel {
         return description;
     }
 
-    public void setDescription(final String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -23,7 +23,7 @@ public class GroupTaskReadModel {
         return done;
     }
 
-    public void setDone(final boolean done) {
+    public void setDone(boolean done) {
         this.done = done;
     }
 }

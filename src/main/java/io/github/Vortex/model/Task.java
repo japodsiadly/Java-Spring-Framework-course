@@ -39,7 +39,7 @@ public class Task {
         return id;
     }
 
-    void setId(final int id) {
+    void setId(int id) {
         this.id = id;
     }
 
@@ -47,7 +47,7 @@ public class Task {
         return description;
     }
 
-    void setDescription(final String description) {
+    void setDescription(String description) {
         this.description = description;
     }
 
@@ -55,7 +55,7 @@ public class Task {
         return done;
     }
 
-    public void setDone(final boolean done) {
+    public void setDone(boolean done) {
         this.done = done;
     }
 
@@ -63,7 +63,7 @@ public class Task {
         return deadline;
     }
 
-    void setDeadline(final LocalDateTime deadline) {
+    void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
 
@@ -71,7 +71,7 @@ public class Task {
         return audit;
     }
 
-    void setAudit(final Audit audit) {
+    void setAudit(Audit audit) {
         this.audit = audit;
     }
 
@@ -79,11 +79,11 @@ public class Task {
         return group;
     }
 
-    void setGroup(final TaskGroup group) {
+    void setGroup(TaskGroup group) {
         this.group = group;
     }
 
-    public void updateFrom(final Task source) {
+    public void updateFrom(Task source) {
         description = source.description;
         done = source.done;
         deadline = source.deadline;

@@ -1,5 +1,6 @@
 package io.github.Vortex.model.projection;
 
+import io.github.Vortex.model.Project;
 import io.github.Vortex.model.TaskGroup;
 
 import java.util.Set;
@@ -13,7 +14,7 @@ public class GroupWriteModel {
         return description;
     }
 
-    public void setDescription(final String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -21,11 +22,11 @@ public class GroupWriteModel {
         return tasks;
     }
 
-    public void setTasks(final Set<GroupTaskWriteModel> tasks) {
+    public void setTasks(Set<GroupTaskWriteModel> tasks) {
         this.tasks = tasks;
     }
 
-    public TaskGroup toGroup(){
+    public TaskGroup toGroup(Project project){
         var result = new TaskGroup();
         result.setDescription(description);
         result.setTasks(
@@ -33,6 +34,7 @@ public class GroupWriteModel {
                         .map(source -> source.toTask(result))
                         .collect(Collectors.toSet())
         );
+        result.setProject(project);
         return result;
     }
 }

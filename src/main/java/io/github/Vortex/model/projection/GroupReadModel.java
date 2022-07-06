@@ -34,7 +34,7 @@ public class GroupReadModel {
         return description;
     }
 
-    public void setDescription(final String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -42,7 +42,7 @@ public class GroupReadModel {
         return deadline;
     }
 
-    public void setDeadline(final LocalDateTime deadline) {
+    public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
 
@@ -50,7 +50,7 @@ public class GroupReadModel {
         return tasks;
     }
 
-    public void setTasks(final Set<GroupTaskReadModel> tasks) {
+    public void setTasks(Set<GroupTaskReadModel> tasks) {
         this.tasks = tasks;
     }
 
@@ -58,7 +58,7 @@ public class GroupReadModel {
         return id;
     }
 
-    public void setId(final int id) {
+    public void setId(int id) {
         this.id = id;
     }
 }
