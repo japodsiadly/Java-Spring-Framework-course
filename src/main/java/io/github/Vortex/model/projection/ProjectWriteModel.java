@@ -39,7 +39,7 @@ public class ProjectWriteModel {
         var result = new Project();
         result.setDescription(description);
         steps.forEach(step -> step.setProject(result));
-        result.setSteps(new HashSet<>());
+        result.setSteps(new HashSet<>(steps));
         return result;
     }
 }

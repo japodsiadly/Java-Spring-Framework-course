@@ -4,6 +4,8 @@ import io.github.Vortex.logic.ProjectService;
 import io.github.Vortex.model.Project;
 import io.github.Vortex.model.ProjectStep;
 import io.github.Vortex.model.projection.ProjectWriteModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +20,7 @@ import java.util.List;
 @RequestMapping("/projects")
 class ProjectController {
     private final ProjectService projectService;
+    Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
     ProjectController(ProjectService projectService) {
         this.projectService = projectService;
@@ -32,6 +35,7 @@ class ProjectController {
     @PostMapping(params = "addStep")
     String addProjectStep(@ModelAttribute("project") ProjectWriteModel current) {
         current.getSteps().add(new ProjectStep());
+        logger.info(current.getSteps().toString());
         return "projects";
     }
 

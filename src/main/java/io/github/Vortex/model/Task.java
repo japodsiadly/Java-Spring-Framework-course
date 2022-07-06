@@ -20,14 +20,14 @@ public class Task {
     @JoinColumn(name = "task_group_id")
     private TaskGroup group;
 
-    Task() {
+    public Task() {
     }
 
-    public Task(String description,LocalDateTime deadline) {
+    public Task(String description, LocalDateTime deadline) {
         this(description, deadline, null);
     }
 
-    public Task(String description,LocalDateTime deadline, TaskGroup group) {
+    public Task(String description, LocalDateTime deadline, TaskGroup group) {
         this.description = description;
         this.deadline = deadline;
         if (group != null) {
@@ -39,7 +39,7 @@ public class Task {
         return id;
     }
 
-    void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -47,7 +47,7 @@ public class Task {
         return description;
     }
 
-    void setDescription(String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -63,23 +63,23 @@ public class Task {
         return deadline;
     }
 
-    void setDeadline(LocalDateTime deadline) {
+    public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
 
-    Audit getAudit() {
+    public Audit getAudit() {
         return audit;
     }
 
-    void setAudit(Audit audit) {
+    public void setAudit(Audit audit) {
         this.audit = audit;
     }
 
-    TaskGroup getGroup() {
+    public TaskGroup getGroup() {
         return group;
     }
 
-    void setGroup(TaskGroup group) {
+    public void setGroup(TaskGroup group) {
         this.group = group;
     }
 

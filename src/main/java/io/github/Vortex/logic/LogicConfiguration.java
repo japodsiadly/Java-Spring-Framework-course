@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-class LogicConfiguration {
+public class LogicConfiguration {
     @Bean
     ProjectService projectService(
             final ProjectRepository repository,

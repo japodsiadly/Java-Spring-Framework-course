@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "PROJECT_STEPS")
 public class ProjectStep {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     @NotBlank(message = "Project step's description must be not empty")
     private String description;
@@ -16,12 +16,11 @@ public class ProjectStep {
     @JoinColumn(name = "project_id")
     private Project project;
 
-
     public int getId() {
         return id;
     }
 
-    void setId(int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -41,7 +40,7 @@ public class ProjectStep {
         this.daysToDeadline = daysToDeadline;
     }
 
-    Project getProject() {
+    public Project getProject() {
         return project;
     }
 
