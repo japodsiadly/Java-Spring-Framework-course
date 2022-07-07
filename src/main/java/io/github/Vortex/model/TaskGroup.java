@@ -8,7 +8,7 @@ import java.util.Set;
 @Table(name = "task_groups")
 public class TaskGroup {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotBlank(message = "Task group's description must not be empty")
     private String description;
@@ -26,7 +26,7 @@ public class TaskGroup {
         return id;
     }
 
-    void setId(final int id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -34,7 +34,7 @@ public class TaskGroup {
         return description;
     }
 
-    public void setDescription(final String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -42,7 +42,7 @@ public class TaskGroup {
         return done;
     }
 
-    public void setDone(final boolean done) {
+    public void setDone(boolean done) {
         this.done = done;
     }
 
@@ -50,7 +50,7 @@ public class TaskGroup {
         return tasks;
     }
 
-    public void setTasks(final Set<Task> tasks) {
+    public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
     }
 
@@ -58,7 +58,7 @@ public class TaskGroup {
         return project;
     }
 
-    public void setProject(final Project project) {
+    public void setProject(Project project) {
         this.project = project;
     }
 }

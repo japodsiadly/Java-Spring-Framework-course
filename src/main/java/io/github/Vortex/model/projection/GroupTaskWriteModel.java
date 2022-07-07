@@ -1,6 +1,7 @@
 package io.github.Vortex.model.projection;
 
 import io.github.Vortex.model.Task;
+import io.github.Vortex.model.TaskGroup;
 
 import java.time.LocalDateTime;
 
@@ -12,7 +13,7 @@ public class GroupTaskWriteModel {
         return description;
     }
 
-    public void setDescription(final String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -20,11 +21,11 @@ public class GroupTaskWriteModel {
         return deadline;
     }
 
-    public void setDeadline(final LocalDateTime deadline) {
+    public void setDeadline(LocalDateTime deadline) {
         this.deadline = deadline;
     }
 
-    public Task toTask(){
-        return new Task(description, deadline);
+    public Task toTask(TaskGroup group){
+        return new Task(description, deadline, group);
     }
 }

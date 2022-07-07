@@ -1,5 +1,6 @@
 package io.github.Vortex.controler;
 
+import io.github.Vortex.logic.TaskService;
 import io.github.Vortex.model.Task;
 import io.github.Vortex.model.TaskRepository;
 import org.slf4j.Logger;
@@ -14,60 +15,82 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
+@RequestMapping("/tasks")
 class TaskController {
     public static final Logger logger = LoggerFactory.getLogger(TaskController.class);
-    private final TaskRepository repository;
+    private final TaskRepository taskRepository;
+    private final TaskService taskService;
 
-    TaskController(final TaskRepository repository) {
-        this.repository = repository;
+    TaskController(TaskRepository taskRepository, TaskService taskService) {
+        this.taskRepository = taskRepository;
+        this.taskService = taskService;
     }
 
-    @GetMapping(value = "/tasks", params = {"!sort", "!page", "!size"})
+//    @GetMapping(params = {"!sort", "!page", "!size"})
+//    CompletableFuture<ResponseEntity<List<Task>>> readAllTasks() {
+//        logger.warn("Exposing all the tasks!!");
+//        return  taskService.findAllAsync().thenApply(ResponseEntity::ok);
+//    }
+
+    @GetMapping(params = {"!sort", "!page", "!size"})
     ResponseEntity<List<Task>> readAllTasks() {
-        logger.warn("Exposing all the tasks!!");
-        return ResponseEntity.ok(repository.findAll());
+        logger.warn("Exposing all the tasks!");
+        return ResponseEntity.ok(taskRepository.findAll());
     }
 
-    @GetMapping(value = "/tasks")
-    ResponseEntity<List<Task>> readAllTasks(Pageable page) {
-        logger.warn("Custom pageable");
-        return ResponseEntity.ok(repository.findAll(page).getContent());
+    @GetMapping
+    ResponseEntity<List<Task>> readAllTasks(Pageable pageable) {
+        logger.info("Custom pageable");
+        return ResponseEntity.ok(taskRepository.findAll(pageable).getContent());
     }
 
-    @GetMapping("/tasks/{id}")
+    @GetMapping("/{id}")
     ResponseEntity<Task> readTask(@PathVariable int id) {
-        return repository.findById(id)
+        return taskRepository.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/tasks")
+    @GetMapping(value = "/search/done")
+    ResponseEntity<List<Task>> readDoneTasks(@RequestParam(defaultValue = "true") boolean state) {
+        return ResponseEntity.ok(taskRepository.findByDone(state));
+    }
+
+    @PostMapping
     ResponseEntity<Task> createTask(@RequestBody @Valid Task toCreate) {
-        Task result = repository.save(toCreate);
+        Task result = taskRepository.save(toCreate);
         return ResponseEntity.created(URI.create("/" + result.getId())).body(result);
     }
 
-    @PutMapping("/tasks/{id}")
-    ResponseEntity<?> updateTask(@PathVariable int id, @RequestBody @Valid Task toUpdate) {
-        if (!repository.existsById(id)) {
+    @PutMapping("/{id}")
+    ResponseEntity<?> updateTask(@RequestBody @Valid Task toUpdate, @PathVariable int id) {
+        if (!taskRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        repository.findById(id)
+        taskRepository.findById(id)
                 .ifPresent(task -> {
                     task.updateFrom(toUpdate);
-                    repository.save(task);
+                    taskRepository.save(task);
                 });
-        return ResponseEntity.noContent().build();
+        return taskRepository.findById(id)
+                .map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     @Transactional
-    @PatchMapping("/tasks/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> toggleTask(@PathVariable int id) {
-        if (!repository.existsById(id)) {
+        if (!taskRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        repository.findById(id)
+        taskRepository.findById(id)
                 .ifPresent(task -> task.setDone(!task.isDone()));
+        return taskRepository.findById(id)
+                .map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity<Task> deleteTask(@PathVariable int id) {
+//        taskRepository.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -1,52 +1,43 @@
 package io.github.Vortex.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity
-@Table(name = "projects")
+@Table(name = "PROJECTS")
 public class Project {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @NotBlank(message = "Project's description must not be empty")
+    @NotBlank(message = "Project's description must be not empty")
     private String description;
     @OneToMany(mappedBy = "project")
     private Set<TaskGroup> groups;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project") //tutaj
     private Set<ProjectStep> steps;
 
-    Project() {
+    public Project() {
+
     }
 
     public int getId() {
         return id;
     }
 
-    void setId(final int id) {
-        this.id = id;
-    }
-
     public String getDescription() {
         return description;
     }
 
-    void setDescription(final String description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 
-    Set<TaskGroup> getGroups() {
+    public Set<TaskGroup> getGroups() {
         return groups;
     }
 
-    void setGroups(final Set<TaskGroup> groups) {
+    public void setGroups(Set<TaskGroup> groups) {
         this.groups = groups;
     }
 
@@ -54,7 +45,7 @@ public class Project {
         return steps;
     }
 
-    public void setSteps(final Set<ProjectStep> steps) {
+    public void setSteps(Set<ProjectStep> steps) {
         this.steps = steps;
     }
 }

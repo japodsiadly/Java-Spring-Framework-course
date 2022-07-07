@@ -4,6 +4,12 @@ spring:
     path: '/console'
   datasource:
     url: 'jdbc:h2:file:./todo-db'
+    initialization-mode: always
   jpa:
     hibernate:
       ddl-auto: validate
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
