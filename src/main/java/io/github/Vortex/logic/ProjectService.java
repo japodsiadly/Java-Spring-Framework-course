@@ -19,7 +19,10 @@ public class ProjectService {
     private final TaskGroupService taskGroupService;
     private final TaskConfigurationProperties config;
 
-    ProjectService(final ProjectRepository repository, final TaskGroupRepository taskGroupRepository, final TaskGroupService taskGroupService, final TaskConfigurationProperties config) {
+    ProjectService(final ProjectRepository repository,
+                   final TaskGroupRepository taskGroupRepository,
+                   final TaskGroupService taskGroupService,
+                   final TaskConfigurationProperties config) {
         this.repository = repository;
         this.taskGroupRepository = taskGroupRepository;
         this.taskGroupService = taskGroupService;
@@ -35,8 +38,9 @@ public class ProjectService {
     }
 
     public GroupReadModel createGroup(LocalDateTime deadline, int projectId) {
-        if (!config.getTemplate().isAllowMultipleTasks() && taskGroupRepository.existsByDoneIsFalseAndProject_Id(projectId)) {
-            throw new IllegalStateException("Only one undone group from project is allowed.");
+        if (!config.getTemplate().isAllowMultipleTasks() &&
+                taskGroupRepository.existsByDoneIsFalseAndProject_Id(projectId)) {
+            throw new IllegalStateException("Only one undone group from project is allowed!");
         }
         return repository.findById(projectId)
                 .map(project -> {
@@ -50,9 +54,9 @@ public class ProjectService {
                                                 task.setDeadline(deadline.plusDays(projectStep.getDaysToDeadline()));
                                                 return task;
                                             }
-                                    ).collect(Collectors.toSet())
+                                    ).collect(Collectors.toList())
                     );
                     return taskGroupService.createGroup(targetGroup, project);
-                }).orElseThrow(() -> new IllegalArgumentException("Project with given id not found."));
+                }).orElseThrow(() -> new IllegalArgumentException("Project with given id not found!"));
     }
 }
