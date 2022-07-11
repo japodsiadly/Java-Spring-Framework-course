@@ -20,11 +20,9 @@ import java.util.concurrent.CompletableFuture;
 class TaskController {
     public static final Logger logger = LoggerFactory.getLogger(TaskController.class);
     private final TaskRepository taskRepository;
-    private final TaskService taskService;
 
-    TaskController(TaskRepository taskRepository, TaskService taskService) {
+    TaskController(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
-        this.taskService = taskService;
     }
 
 //    @GetMapping(params = {"!sort", "!page", "!size"})

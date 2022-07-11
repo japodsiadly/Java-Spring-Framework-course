@@ -4,6 +4,7 @@ import io.github.Vortex.logic.ProjectService;
 import io.github.Vortex.model.Project;
 import io.github.Vortex.model.ProjectStep;
 import io.github.Vortex.model.projection.ProjectWriteModel;
+import io.micrometer.core.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -54,6 +55,7 @@ class ProjectController {
         return "projects";
     }
 
+    @Timed(value = "project.create.group", histogram = true, percentiles = {0.5, 0.95, 0.99})
     @PostMapping("/{id}")
     String createGroup(
             @ModelAttribute("project") ProjectWriteModel current,
