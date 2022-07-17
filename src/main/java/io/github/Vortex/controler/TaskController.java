@@ -1,10 +1,10 @@
 package io.github.Vortex.controler;
 
-import io.github.Vortex.logic.TaskService;
 import io.github.Vortex.model.Task;
 import io.github.Vortex.model.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,15 +13,16 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/tasks")
 class TaskController {
     public static final Logger logger = LoggerFactory.getLogger(TaskController.class);
+    private final ApplicationEventPublisher eventPublisher;
     private final TaskRepository taskRepository;
 
-    TaskController(TaskRepository taskRepository) {
+    TaskController(final ApplicationEventPublisher eventPublisher, TaskRepository taskRepository) {
+        this.eventPublisher = eventPublisher;
         this.taskRepository = taskRepository;
     }
 
@@ -82,7 +83,8 @@ class TaskController {
             return ResponseEntity.notFound().build();
         }
         taskRepository.findById(id)
-                .ifPresent(task -> task.setDone(!task.isDone()));
+                .map(Task::toggle)
+                .ifPresent(eventPublisher::publishEvent);
         return taskRepository.findById(id)
                 .map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
